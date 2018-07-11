@@ -45,7 +45,8 @@ UE.plugin.register('autosave', function (){
     return {
         defaultOptions: {
             //默认间隔时间
-            saveInterval: 500
+            saveInterval: 500,
+            enableAutoSave: true // HaoChuan9421
         },
         bindEvents:{
             'ready':function(){
@@ -65,6 +66,10 @@ UE.plugin.register('autosave', function (){
             },
 
             'contentchange': function () {
+                // HaoChuan9421
+                if (!me.getOpt('enableAutoSave')) {
+                    return;
+                }
 
                 if ( !saveKey ) {
                     return;
