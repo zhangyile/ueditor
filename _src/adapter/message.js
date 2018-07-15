@@ -9,9 +9,10 @@ UE.registerUI('message', function(editor) {
     me.addListener('ready', function(){
         holder = document.getElementById(me.ui.id + '_message_holder');
         updateHolderPos();
-        setTimeout(function(){
-            updateHolderPos();
-        }, 500);
+        // HaoChuan9421
+        // setTimeout(function(){
+        //     updateHolderPos();
+        // }, 500);
     });
 
     me.addListener('showmessage', function(type, opt){

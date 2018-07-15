@@ -1380,6 +1380,10 @@
          * ```
          */
         getLang: function (path) {
+            // HaoChuan9421
+            if(!this.options){
+                return '';
+            }
             var lang = UE.I18N[this.options.lang];
             if (!lang) {
                 throw Error("not import language file");
