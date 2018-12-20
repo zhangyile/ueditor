@@ -369,22 +369,38 @@
                 toolbarUis[i] = toolbarUi;
             }
 
-            //接受外部定制的UI
+            //接受外部定制的UI（修复因 utils.each 无法准确的循环出对象的全部元素而导致的自定义 UI 不符合预期的 BUG by HaoChuan9421）
 
-            utils.each(UE._customizeUI,function(obj,key){
+            // utils.each(UE._customizeUI,function(obj,key){
+            //     var itemUI,index;
+            //     if(obj.id && obj.id != editor.key){
+            //        return false;
+            //     }
+            //     itemUI = obj.execFn.call(editor,editor,key);
+            //     if(itemUI){
+            //         index = obj.index;
+            //         if(index === undefined){
+            //             index = toolbarUi.items.length;
+            //         }
+            //         toolbarUi.add(itemUI,index)
+            //     }
+            // });
+
+            
+            for(var key in UE._customizeUI){
+                var obj = UE._customizeUI[key]
                 var itemUI,index;
-                if(obj.id && obj.id != editor.key){
-                   return false;
-                }
-                itemUI = obj.execFn.call(editor,editor,key);
-                if(itemUI){
-                    index = obj.index;
-                    if(index === undefined){
-                        index = toolbarUi.items.length;
+                if(!obj.id || obj.id == editor.key){
+                    itemUI = obj.execFn.call(editor,editor,key);
+                    if(itemUI){
+                        index = obj.index;
+                        if(index === undefined){
+                            index = toolbarUi.items.length;
+                        }
+                        toolbarUi.add(itemUI,index)
                     }
-                    toolbarUi.add(itemUI,index)
                 }
-            });
+            }
 
             this.toolbars = toolbarUis;
         },
