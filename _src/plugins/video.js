@@ -20,7 +20,7 @@ UE.plugins['video'] = function (){
 
         url = utils.unhtmlForUrl(url);
         align = utils.unhtml(align);
-        classname = utils.unhtml(classname);
+        classname = utils.unhtml(classname).trim();
 
         width = parseInt(width, 10) || 0;
         height = parseInt(height, 10) || 0;
