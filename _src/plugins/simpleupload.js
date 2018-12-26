@@ -18,12 +18,18 @@ UE.plugin.register('simpleupload', function() {
       h = containerBtn.offsetHeight || 20,
       btnStyle = 'display:block;width:' + w + 'px;height:' + h + 'px;overflow:hidden;border:0;margin:0;padding:0;position:absolute;top:0;left:0;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity: 0;opacity: 0;cursor:pointer;';
 
-    containerBtn.innerHTML = '<form id="edui_form_' + timestrap + '" enctype="multipart/form-data" style="' + btnStyle + '">' +
-      '<input id="edui_input_' + timestrap + '" type="file" accept="image/*" name="' + me.options.imageFieldName + '"style="' + btnStyle + '" />' +
-      '</form>'
-
-    var form = document.getElementById('edui_form_' + timestrap)
-    var input = document.getElementById('edui_input_' + timestrap)
+    var form = document.createElement('form');
+    var input = document.createElement('input');
+    form.id = 'edui_form_' + timestrap;
+    form.enctype = 'multipart/form-data';
+    form.style = btnStyle;
+    input.id = 'edui_input_' + timestrap;
+    input.type = 'file'
+    input.accept = 'image/*';
+    input.name = me.options.imageFieldName;
+    input.style = btnStyle;
+    form.appendChild(input);
+    containerBtn.appendChild(form);
 
     input.addEventListener('change', function(event) {
       if (!input.value) return;
