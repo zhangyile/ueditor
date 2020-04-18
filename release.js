@@ -6,6 +6,10 @@ const OSS = require("ali-oss");
 const distPath = path.join(__dirname, "dist");
 const { OSS_ACCESSKEY_SECRET } = process.env;
 
+const prefix = "public/UEditor";
+const date = new Date();
+const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}`;
+
 const client = new OSS({
     region: "oss-cn-shenzhen",
     accessKeyId: "LTAI4FoHdaH1dEz4SdnK7AkW",
@@ -31,8 +35,9 @@ function getDirAllFiles(root) {
 }
 
 getDirAllFiles(distPath).forEach((file) => {
-    client.putStream(
-        `public/UEditor/v${pkg.version}${file}`,
-        fs.createReadStream(path.join(distPath, file))
-    );
+    const rs = fs.createReadStream(path.join(distPath, file));
+
+    client.putStream(`${prefix}/v${pkg.version}/${time}${file}`, rs);
+    client.putStream(`${prefix}/v${pkg.version}${file}`, rs);
+    client.putStream(`${prefix}${file}`, rs);
 });
