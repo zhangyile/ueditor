@@ -73,6 +73,20 @@ UE.plugin.register('simpleupload', function() {
           xhr.setRequestHeader(key, me.options.headers[key])
         }
       }
+
+      // 增加权限校验
+      function getToken() {
+        if (window.localStorage){
+          var vuexString = window.localStorage.getItem("vuex")
+          var vuex = JSON.parse(vuexString)
+          if (vuex.user) {
+            return vuex.user.token
+          }
+        }
+        return ""
+      }
+      xhr.setRequestHeader("x-token", getToken())
+
       xhr.onload = function() {
         if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
           var res = JSON.parse(xhr.responseText)

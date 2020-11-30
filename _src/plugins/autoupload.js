@@ -94,7 +94,21 @@ UE.plugin.register('autoupload', function (){
         fd.append(fieldName, file, file.name || ('blob.' + file.type.substr('image/'.length)));
         fd.append('type', 'ajax');
         xhr.open("post", url, true);
+
+        // 增加权限校验
+        function getToken() {
+            if (window.localStorage){
+            var vuexString = window.localStorage.getItem("vuex")
+            var vuex = JSON.parse(vuexString)
+            if (vuex.user) {
+                return vuex.user.token
+            }
+            }
+            return ""
+        }
+        xhr.setRequestHeader("x-token", getToken())
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        
         xhr.addEventListener('load', function (e) {
             try{
                 var json = (new Function("return " + utils.trim(e.target.response)))();
